@@ -1,34 +1,17 @@
-  import Subscribe from './subscribe.js';
+  import Observer from './observer.js';
+  import Subscribe from './subscribe.js'
   // vue
-  export default class Vue extends Subscribe{ // extends订阅队列
+  export default class Vue extends Observer { // extends订阅队列
     constructor(opt) {
       super()
       this.opt = opt
       // 给属性ObjectDefineproperty
-      this.observe(opt.data)
+      this.observe(this.opt.data)
       let root = document.querySelector(opt.el)
       this.compile(root)
     }
-    // 为每个属性添加观察者
-    observe(data) {
-      Object.keys(data).forEach((key) => {
-        data['_'+key] = data[key]
-        let _this = this
-        Object.defineProperty(data, key, {
-          get() {
-            // 将订阅者放入订阅者通道实例
-            Subscribe.target && _this.addSubNode(key, Subscribe.target)
-            return data['_'+key]
-          },
-          set(newVal) {
-            // 通过通道执行订阅者事件
-            _this.update(key, newVal)
-            data['_'+key] = newVal
-          }
-        })
-      })
-    }
-
+    
+    // 处理dom
     compile(node) {
       [].forEach.call(node.childNodes, child => {
         if (!child.firstElementChild && /\{\{(.+)\}\}/.test(child.innerHTML)) { // 叶子标签中有{{.*}}
