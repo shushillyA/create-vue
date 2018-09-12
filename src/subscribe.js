@@ -9,6 +9,8 @@ export default class Subscribe{
   }
   update(key, newVal) {
     Object.values(this.subNode[key]).forEach(ele => {
+      if (key === 'name') console.dir(ele)
+      if (ele.nodeName === 'INPUT') ele.value = newVal
       ele.innerHTML = newVal
     })
   }
