@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
   window.data = opt.data
 
   // 实例化vue
-  let vm = new Vue(opt)
+  let vm = setTimeout(() => { new Vue(opt) }, 1000)
 
   // 调试
   setTimeout(function() {
